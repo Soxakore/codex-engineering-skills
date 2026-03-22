@@ -22,7 +22,7 @@ Best for tasks where Codex needs to do more than explain:
 - recover from drift or partial failure
 - leave a trustworthy summary instead of a hand-wavy “should be fixed”
 
-Skill files live at [skills/verified-operator](/Users/ibe/Documents/NemoCodex/king-of-codex-skills/skills/verified-operator).
+Skill files live at [skills/verified-operator](./skills/verified-operator).
 
 ### `repo-pilot`
 
@@ -35,7 +35,7 @@ Best for tasks where Codex should understand the codebase before editing:
 - trace behavior through an existing codebase
 - prefer minimal-diff, review-ready changes with the cheapest useful proofs
 
-Skill files live at [skills/repo-pilot](/Users/ibe/Documents/NemoCodex/king-of-codex-skills/skills/repo-pilot).
+Skill files live at [skills/repo-pilot](./skills/repo-pilot).
 
 ## Repo Layout
 
@@ -61,7 +61,7 @@ king-of-codex-skills/
 Install the packaged skills into your local Codex setup:
 
 ```bash
-git clone https://github.com/<your-username>/king-of-codex-skills.git
+git clone https://github.com/Soxakore/king-of-codex-skills.git
 cd king-of-codex-skills
 bash ./scripts/install.sh
 ```
@@ -84,16 +84,9 @@ This uses Codex's local validator if it exists on the machine.
 
 ## Publish To GitHub
 
-This repo is already initialized locally, so the publish flow is:
+This repo is already live on GitHub:
 
-```bash
-cd /Users/ibe/Documents/NemoCodex/king-of-codex-skills
-git add .
-git commit -m "Initial release: verified-operator skill under Apache-2.0"
-gh repo create king-of-codex-skills --public --source=. --remote=origin --push
-```
-
-If you want it private first, replace `--public` with `--private`.
+[Soxakore/king-of-codex-skills](https://github.com/Soxakore/king-of-codex-skills)
 
 ## Suggested GitHub Metadata
 
@@ -123,8 +116,8 @@ Keep each skill self-contained so people can inspect or copy it without hunting 
 
 ## Contributing
 
-See [CONTRIBUTING.md](/Users/ibe/Documents/NemoCodex/king-of-codex-skills/CONTRIBUTING.md) for contribution guidelines.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for contribution guidelines.
 
 ## License
 
-This repository is licensed under Apache 2.0. See [LICENSE](/Users/ibe/Documents/NemoCodex/king-of-codex-skills/LICENSE).
+This repository is licensed under Apache 2.0. See [LICENSE](./LICENSE).
