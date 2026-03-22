@@ -142,6 +142,7 @@ The HTML dashboard is meant to feel more like a market board than a static repor
 It also shows:
 
 - a calmer core board that stays visible on the main page
+- a trading-terminal layout with a command strip, side rail, chart stage, watchlist, and bottom dock
 - tabs for overview, rankings, calendar, tokens, pressure, and tape
 - top movers
 - cooling skills

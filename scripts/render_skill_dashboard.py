@@ -385,38 +385,41 @@ def render_html(payload: dict) -> str:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Codex Skill Exchange</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307101c'/%3E%3Cpath d='M14 43V21h8.5l7.1 12.6L36.7 21H45v22h-5.8V30.8l-7.1 12.1h-5L20 30.8V43Z' fill='%2356d7ff'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080d17'/%3E%3Cpath d='M14 43V21h8.5l7.1 12.6L36.7 21H45v22h-5.8V30.8l-7.1 12.1h-5L20 30.8V43Z' fill='%2356d7ff'/%3E%3C/svg%3E">
   <style>
     :root {
-      --bg: #050d16;
-      --bg-soft: rgba(13, 25, 40, 0.84);
-      --panel: rgba(10, 22, 38, 0.82);
-      --panel-strong: rgba(5, 14, 24, 0.92);
-      --line: rgba(110, 176, 255, 0.14);
-      --cyan: #5fe2ff;
-      --cyan-soft: #8be8ff;
-      --green: #41f0a4;
-      --red: #ff627f;
-      --amber: #ffc76a;
-      --violet: #7d8bff;
-      --text: #eef6ff;
-      --muted: #8ea8c4;
-      --glow: 0 0 32px rgba(95, 226, 255, 0.14);
-      --tab-off: rgba(85, 120, 170, 0.12);
-      --tab-on: rgba(22, 62, 98, 0.92);
+      --bg: #04070d;
+      --bg-soft: #090f18;
+      --panel: rgba(8, 13, 23, 0.94);
+      --panel-strong: rgba(4, 8, 14, 0.98);
+      --panel-glow: linear-gradient(180deg, rgba(23, 31, 48, 0.94), rgba(8, 13, 23, 0.98));
+      --line: rgba(124, 155, 196, 0.14);
+      --cyan: #57d8ff;
+      --cyan-2: #89e7ff;
+      --green: #30d48a;
+      --red: #ff5c7c;
+      --amber: #ffbd63;
+      --violet: #8193ff;
+      --ink: #edf5ff;
+      --muted: #7f92ad;
+      --muted-2: #617089;
       --radius: 18px;
+      --radius-sm: 13px;
+      --shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
     }
 
     * { box-sizing: border-box; }
+
     html, body {
       margin: 0;
       min-height: 100%;
       background:
-        radial-gradient(circle at top right, rgba(76, 118, 255, 0.18), transparent 30%),
-        radial-gradient(circle at bottom left, rgba(65, 240, 164, 0.10), transparent 28%),
-        linear-gradient(180deg, #050d16 0%, #03070d 100%);
-      color: var(--text);
-      font-family: "Avenir Next", "IBM Plex Sans", "Segoe UI", sans-serif;
+        radial-gradient(circle at 12% 12%, rgba(69, 122, 255, 0.18), transparent 26%),
+        radial-gradient(circle at 88% 16%, rgba(87, 216, 255, 0.12), transparent 20%),
+        radial-gradient(circle at 48% 100%, rgba(38, 184, 117, 0.08), transparent 24%),
+        linear-gradient(180deg, #04070d 0%, #03060c 100%);
+      color: var(--ink);
+      font-family: "IBM Plex Sans", "Avenir Next", "Segoe UI", sans-serif;
     }
 
     body::before {
@@ -425,172 +428,313 @@ def render_html(payload: dict) -> str:
       inset: 0;
       pointer-events: none;
       background-image:
-        linear-gradient(rgba(98, 145, 215, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(98, 145, 215, 0.045) 1px, transparent 1px);
-      background-size: 32px 32px;
-      mask-image: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.18));
+        linear-gradient(rgba(102, 134, 179, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(102, 134, 179, 0.042) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.15));
     }
 
-    .shell {
-      max-width: 1540px;
+    .app-shell {
+      max-width: 1680px;
       margin: 0 auto;
-      padding: 28px;
+      padding: 18px;
     }
 
-    .hero {
+    .panel {
+      background: var(--panel-glow);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+    }
+
+    .command-bar {
       display: grid;
-      grid-template-columns: 1.25fr 1fr;
-      gap: 22px;
-      align-items: end;
-      margin-bottom: 20px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
+      grid-template-columns: auto 1fr auto;
+      gap: 18px;
       align-items: center;
-      gap: 10px;
-      color: var(--cyan-soft);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.22em;
+      padding: 16px 18px;
       margin-bottom: 14px;
     }
 
-    .pulse {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: var(--green);
-      box-shadow: 0 0 0 0 rgba(65, 240, 164, 0.5);
-      animation: pulse 1.8s infinite;
+    .brand-cluster {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
     }
 
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(65, 240, 164, 0.5); }
-      70% { box-shadow: 0 0 0 15px rgba(65, 240, 164, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(65, 240, 164, 0); }
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(2.6rem, 5vw, 4.9rem);
-      line-height: 0.95;
-      letter-spacing: -0.055em;
-    }
-
-    .subtitle {
-      margin: 14px 0 0;
-      max-width: 760px;
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: 1rem;
-    }
-
-    .status-grid {
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      place-items: center;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      background:
+        radial-gradient(circle at top, rgba(87, 216, 255, 0.32), transparent 70%),
+        linear-gradient(180deg, rgba(35, 52, 79, 0.96), rgba(13, 21, 35, 1));
+      border: 1px solid rgba(87, 216, 255, 0.18);
+      color: var(--cyan-2);
+      box-shadow: inset 0 0 30px rgba(87, 216, 255, 0.08);
+    }
+
+    .eyebrow {
+      color: var(--cyan-2);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+    }
+
+    .desk-title {
+      margin-top: 4px;
+      font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+      letter-spacing: -0.05em;
+      font-weight: 720;
+    }
+
+    .desk-subtitle {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .control-cluster {
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+    }
+
+    .segmented {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px;
+      background: rgba(8, 14, 24, 0.88);
+      border: 1px solid rgba(124, 155, 196, 0.12);
+      border-radius: 999px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.015);
+    }
+
+    .segmented.compact {
+      padding: 6px;
+      gap: 6px;
+    }
+
+    .segmented button,
+    .nav-button {
+      border: 0;
+      background: rgba(54, 73, 99, 0.16);
+      color: var(--muted);
+      cursor: pointer;
+      transition: transform 120ms ease, background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+    }
+
+    .segmented button {
+      border-radius: 999px;
+      padding: 9px 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .segmented button:hover,
+    .nav-button:hover {
+      transform: translateY(-1px);
+      color: var(--ink);
+    }
+
+    .segmented button.is-active,
+    .nav-button.is-active {
+      background: linear-gradient(180deg, rgba(23, 55, 91, 0.96), rgba(12, 35, 59, 0.94));
+      color: var(--cyan-2);
+      box-shadow: inset 0 0 0 1px rgba(87, 216, 255, 0.22);
+    }
+
+    .command-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      min-width: 420px;
+    }
+
+    .meta-chip {
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(11, 17, 28, 0.92);
+      border: 1px solid rgba(124, 155, 196, 0.11);
+    }
+
+    .meta-chip span {
+      display: block;
+      color: var(--muted-2);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.66rem;
+      margin-bottom: 6px;
+    }
+
+    .meta-chip strong {
+      display: block;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .left-rail {
+      position: sticky;
+      top: 18px;
+      padding: 14px 10px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .rail-label {
+      color: var(--muted-2);
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.62rem;
+      text-align: center;
+    }
+
+    .nav-stack {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav-button {
+      border-radius: 16px;
+      padding: 11px 6px;
+      display: grid;
+      gap: 5px;
+      justify-items: center;
+      min-height: 64px;
+    }
+
+    .nav-icon {
+      font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--cyan-2);
+      opacity: 0.88;
+    }
+
+    .nav-text {
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .rail-footer {
+      padding-top: 8px;
+      border-top: 1px solid rgba(124, 155, 196, 0.08);
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.66rem;
+      line-height: 1.5;
+    }
+
+    .rail-footer strong {
+      display: block;
+      color: var(--ink);
+      font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
+      font-size: 0.92rem;
+      margin-top: 4px;
+    }
+
+    .desk {
+      display: grid;
+      gap: 14px;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 12px;
     }
 
-    .status-card, .panel {
-      background: linear-gradient(180deg, var(--panel), var(--panel-strong));
-      border: 1px solid rgba(120, 180, 255, 0.12);
-      border-radius: var(--radius);
-      box-shadow: var(--glow);
-    }
-
     .status-card {
-      padding: 16px 18px;
-      min-height: 112px;
+      padding: 15px 16px;
+      min-height: 104px;
+      border-radius: var(--radius);
+      background: var(--panel-glow);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
     }
 
-    .status-label, .panel-title {
+    .status-label,
+    .panel-title {
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      font-size: 0.69rem;
     }
 
     .status-value {
-      margin-top: 12px;
-      font-size: clamp(1.55rem, 2.6vw, 2.5rem);
-      font-weight: 700;
+      margin-top: 10px;
+      font-size: clamp(1.15rem, 1.6vw, 1.7rem);
+      font-weight: 720;
       letter-spacing: -0.04em;
+      line-height: 1.02;
     }
 
     .status-note {
       margin-top: 8px;
       color: var(--muted);
-      font-size: 0.84rem;
-      line-height: 1.4;
+      font-size: 0.8rem;
+      line-height: 1.45;
     }
 
-    .control-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 14px 18px;
-      margin-bottom: 18px;
-    }
-
-    .segmented {
-      display: inline-flex;
-      gap: 8px;
-      padding: 8px;
-      background: rgba(10, 22, 38, 0.78);
-      border: 1px solid rgba(120, 180, 255, 0.1);
-      border-radius: 999px;
-      box-shadow: var(--glow);
-    }
-
-    .segmented button {
-      border: 0;
-      border-radius: 999px;
-      padding: 10px 16px;
-      background: var(--tab-off);
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 0.72rem;
-      cursor: pointer;
-      transition: background 140ms ease, color 140ms ease, transform 140ms ease;
-    }
-
-    .segmented button:hover {
-      color: var(--text);
-      transform: translateY(-1px);
-    }
-
-    .segmented button.is-active {
-      background: var(--tab-on);
-      color: var(--cyan-soft);
-      box-shadow: inset 0 0 0 1px rgba(95, 226, 255, 0.18);
-    }
-
-    .core-board {
+    .main-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(340px, 0.82fr);
-      gap: 22px;
-      margin-bottom: 22px;
+      grid-template-columns: minmax(0, 1.6fr) 370px;
+      gap: 14px;
+      align-items: start;
     }
 
-    .panel {
-      overflow: hidden;
+    .chart-panel,
+    .side-panel,
+    .dock {
+      min-width: 0;
     }
 
     .panel-head {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: 14px;
+      align-items: flex-start;
+      gap: 16px;
       padding: 16px 18px;
-      border-bottom: 1px solid rgba(120, 180, 255, 0.08);
+      border-bottom: 1px solid rgba(124, 155, 196, 0.09);
+    }
+
+    .panel-head-copy {
+      min-width: 0;
+    }
+
+    .panel-subtitle {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 0.87rem;
+      line-height: 1.45;
     }
 
     .panel-value {
-      color: var(--cyan-soft);
+      color: var(--cyan-2);
       font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
+      white-space: nowrap;
     }
 
     .panel-body {
@@ -600,6 +744,7 @@ def render_html(payload: dict) -> str:
     .chart-shell {
       display: grid;
       gap: 16px;
+      padding: 18px;
     }
 
     .chart-summary {
@@ -609,65 +754,89 @@ def render_html(payload: dict) -> str:
     }
 
     .mini-metric {
-      padding: 12px 14px;
+      padding: 12px 13px;
       border-radius: 14px;
-      background: rgba(13, 30, 48, 0.72);
-      border: 1px solid rgba(120, 180, 255, 0.08);
+      background: rgba(10, 17, 28, 0.92);
+      border: 1px solid rgba(124, 155, 196, 0.09);
     }
 
     .mini-metric .label {
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       text-transform: uppercase;
-      letter-spacing: 0.13em;
-      color: var(--muted);
+      letter-spacing: 0.15em;
+      color: var(--muted-2);
     }
 
     .mini-metric .value {
       margin-top: 8px;
-      font-size: 1.22rem;
+      font-size: 1.18rem;
       font-weight: 700;
       letter-spacing: -0.03em;
     }
 
+    .chart-frame {
+      position: relative;
+      padding: 18px 18px 14px;
+      border-radius: 20px;
+      background:
+        linear-gradient(180deg, rgba(5, 10, 18, 0.9), rgba(6, 10, 16, 0.96)),
+        radial-gradient(circle at 12% 10%, rgba(87, 216, 255, 0.08), transparent 30%);
+      border: 1px solid rgba(124, 155, 196, 0.1);
+      overflow: hidden;
+    }
+
+    .chart-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(124, 155, 196, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 155, 196, 0.045) 1px, transparent 1px);
+      background-size: 78px 78px;
+      mask-image: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.1));
+    }
+
     .hero-chart {
+      position: relative;
+      z-index: 1;
       width: 100%;
-      height: 310px;
+      height: 430px;
       display: block;
     }
 
     .legend {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
     }
 
     .legend-item {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
       color: var(--muted);
-      font-size: 0.88rem;
+      font-size: 0.84rem;
     }
 
     .legend-dot {
       width: 10px;
       height: 10px;
       border-radius: 999px;
-      box-shadow: 0 0 20px currentColor;
+      box-shadow: 0 0 18px currentColor;
     }
 
-    .board-side {
+    .side-panel {
       display: grid;
-      gap: 16px;
+      gap: 0;
       align-content: start;
     }
 
-    .ticker-block {
-      padding: 18px;
-      border-bottom: 1px solid rgba(120, 180, 255, 0.08);
+    .side-section {
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(124, 155, 196, 0.08);
     }
 
-    .ticker-block:last-child {
+    .side-section:last-child {
       border-bottom: 0;
     }
 
@@ -678,35 +847,59 @@ def render_html(payload: dict) -> str:
       margin-bottom: 14px;
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.15em;
-      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      font-size: 0.69rem;
     }
 
-    .ticker-list {
+    .ticker-list,
+    .watch-rows {
       display: grid;
       gap: 10px;
     }
 
-    .ticker-item {
+    .ticker-item,
+    .watch-row {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 12px;
+      align-items: center;
       padding: 10px 0;
-      border-bottom: 1px dashed rgba(120, 180, 255, 0.08);
+      border-bottom: 1px dashed rgba(124, 155, 196, 0.09);
     }
 
-    .ticker-item:last-child {
+    .ticker-item:last-child,
+    .watch-row:last-child {
       border-bottom: 0;
       padding-bottom: 0;
     }
 
+    .watch-left {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+    }
+
+    .watch-rank {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
+      font-size: 0.72rem;
+      color: var(--cyan-2);
+      background: rgba(20, 41, 69, 0.9);
+      border: 1px solid rgba(87, 216, 255, 0.12);
+    }
+
     .ticker-main {
-      font-weight: 600;
+      font-weight: 650;
     }
 
     .ticker-sub {
       margin-top: 4px;
-      font-size: 0.8rem;
+      font-size: 0.77rem;
       color: var(--muted);
     }
 
@@ -720,8 +913,22 @@ def render_html(payload: dict) -> str:
     .delta.down { color: var(--red); }
     .delta.flat { color: var(--amber); }
 
+    .dock {
+      min-height: 560px;
+    }
+
+    .dock-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(124, 155, 196, 0.09);
+    }
+
     .tab-stage {
-      min-height: 520px;
+      min-height: 500px;
+      padding: 18px;
     }
 
     .tab-panel {
@@ -746,11 +953,11 @@ def render_html(payload: dict) -> str:
     }
 
     .overview-grid {
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr);
     }
 
     .token-grid {
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
     }
 
     .calendar-grid {
@@ -760,32 +967,32 @@ def render_html(payload: dict) -> str:
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.92rem;
+      font-size: 0.91rem;
     }
 
     thead th {
       text-align: left;
       padding: 12px 14px;
       color: var(--muted);
-      font-size: 0.72rem;
+      font-size: 0.69rem;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
-      border-bottom: 1px solid rgba(120, 180, 255, 0.08);
+      letter-spacing: 0.15em;
+      border-bottom: 1px solid rgba(124, 155, 196, 0.08);
     }
 
     tbody td {
       padding: 12px 14px;
-      border-bottom: 1px solid rgba(120, 180, 255, 0.06);
+      border-bottom: 1px solid rgba(124, 155, 196, 0.06);
       vertical-align: middle;
     }
 
     tbody tr:hover {
-      background: rgba(28, 58, 92, 0.24);
+      background: rgba(17, 32, 52, 0.54);
     }
 
     .rank-cell {
       width: 52px;
-      color: var(--cyan-soft);
+      color: var(--cyan-2);
       font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
     }
 
@@ -797,7 +1004,7 @@ def render_html(payload: dict) -> str:
     .skill-state {
       margin-top: 4px;
       color: var(--muted);
-      font-size: 0.75rem;
+      font-size: 0.73rem;
       text-transform: uppercase;
       letter-spacing: 0.13em;
     }
@@ -807,7 +1014,7 @@ def render_html(payload: dict) -> str:
     }
 
     .spark {
-      width: 130px;
+      width: 128px;
       height: 34px;
       display: block;
     }
@@ -822,20 +1029,20 @@ def render_html(payload: dict) -> str:
     .calendar-stat {
       padding: 14px 16px;
       border-radius: 14px;
-      background: rgba(13, 30, 48, 0.72);
-      border: 1px solid rgba(120, 180, 255, 0.08);
+      background: rgba(10, 17, 28, 0.92);
+      border: 1px solid rgba(124, 155, 196, 0.08);
     }
 
     .calendar-stat .label {
       color: var(--muted);
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.14em;
     }
 
     .calendar-stat .value {
       margin-top: 10px;
-      font-size: 1.5rem;
+      font-size: 1.45rem;
       font-weight: 700;
       letter-spacing: -0.03em;
     }
@@ -847,18 +1054,18 @@ def render_html(payload: dict) -> str:
     }
 
     .calendar-cell {
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 10px 8px;
-      min-height: 66px;
-      background: rgba(13, 30, 48, 0.42);
-      border: 1px solid rgba(120, 180, 255, 0.06);
+      min-height: 74px;
+      background: rgba(12, 18, 30, 0.88);
+      border: 1px solid rgba(124, 155, 196, 0.07);
       display: grid;
       align-content: space-between;
       gap: 8px;
     }
 
     .calendar-cell.is-dim {
-      opacity: 0.5;
+      opacity: 0.46;
     }
 
     .calendar-cell .day {
@@ -868,13 +1075,13 @@ def render_html(payload: dict) -> str:
 
     .calendar-cell .figure {
       font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
-      font-size: 0.86rem;
+      font-size: 0.92rem;
       font-weight: 700;
     }
 
     .calendar-cell .sub {
       color: var(--muted);
-      font-size: 0.7rem;
+      font-size: 0.68rem;
     }
 
     .token-stack {
@@ -889,14 +1096,14 @@ def render_html(payload: dict) -> str:
 
     .token-bar-row {
       display: grid;
-      grid-template-columns: 132px minmax(0, 1fr) 88px;
+      grid-template-columns: 120px minmax(0, 1fr) 92px;
       gap: 12px;
       align-items: center;
     }
 
     .token-label {
       color: var(--muted);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.13em;
     }
@@ -904,7 +1111,7 @@ def render_html(payload: dict) -> str:
     .token-bar {
       height: 10px;
       border-radius: 999px;
-      background: rgba(120, 180, 255, 0.08);
+      background: rgba(124, 155, 196, 0.08);
       overflow: hidden;
     }
 
@@ -916,16 +1123,15 @@ def render_html(payload: dict) -> str:
     .tape {
       display: grid;
       gap: 10px;
-      padding: 18px;
     }
 
     .tape-item {
       display: grid;
-      grid-template-columns: 150px minmax(0, 1fr) auto;
+      grid-template-columns: 152px minmax(0, 1fr) auto;
       gap: 14px;
       align-items: center;
       padding: 12px 0;
-      border-bottom: 1px dashed rgba(120, 180, 255, 0.08);
+      border-bottom: 1px dashed rgba(124, 155, 196, 0.08);
     }
 
     .tape-item:last-child {
@@ -936,7 +1142,7 @@ def render_html(payload: dict) -> str:
     .tape-time {
       font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
       color: var(--muted);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
     }
 
     .tape-task {
@@ -946,40 +1152,84 @@ def render_html(payload: dict) -> str:
     .tape-skills {
       margin-top: 4px;
       color: var(--muted);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
     }
 
     .footer {
-      margin-top: 18px;
+      margin-top: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 14px;
       color: var(--muted);
       font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
     }
 
-    @media (max-width: 1220px) {
-      .hero,
-      .core-board,
+    @media (max-width: 1400px) {
+      .command-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .command-meta {
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 1260px) {
+      .main-grid,
       .overview-grid,
       .token-grid,
       .calendar-grid {
         grid-template-columns: 1fr;
       }
 
+      .summary-strip {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
       .chart-summary {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
 
-    @media (max-width: 760px) {
-      .shell {
-        padding: 18px;
+    @media (max-width: 920px) {
+      .workspace {
+        grid-template-columns: 1fr;
       }
 
-      .status-grid,
+      .left-rail {
+        position: static;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+      }
+
+      .nav-stack {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .summary-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .chart-summary,
+      .command-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .command-meta {
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .app-shell {
+        padding: 14px;
+      }
+
+      .chart-summary,
+      .summary-strip,
+      .command-meta,
       .calendar-strip {
         grid-template-columns: 1fr;
       }
@@ -987,6 +1237,10 @@ def render_html(payload: dict) -> str:
       .segmented {
         width: 100%;
         overflow: auto;
+      }
+
+      .nav-stack {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       thead {
@@ -1005,235 +1259,275 @@ def render_html(payload: dict) -> str:
       }
 
       tbody tr {
-        border-bottom: 1px solid rgba(120, 180, 255, 0.08);
+        border-bottom: 1px solid rgba(124, 155, 196, 0.08);
         padding: 8px 0;
       }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <section class="hero">
-      <div>
-        <div class="eyebrow"><span class="pulse"></span> live codex skill exchange</div>
-        <h1>Skill Market Board</h1>
-        <p class="subtitle">
-          A calmer live board for skill performance. The core page keeps the market pulse in view, while deeper ranking, calendar, pressure, and token data live behind tabs instead of stacking everything into one long wall.
-        </p>
+  <div class="app-shell">
+    <header class="command-bar panel">
+      <div class="brand-cluster">
+        <div class="brand-mark">CE</div>
+        <div>
+          <div class="eyebrow">live telemetry terminal</div>
+          <div class="desk-title">Skill Exchange Desk</div>
+          <div class="desk-subtitle">TradingView-inspired telemetry layout with a chart-first workspace, command strip, and a dock for deep inspection.</div>
+        </div>
       </div>
-      <div class="status-grid" id="statusGrid"></div>
-    </section>
+      <div class="control-cluster">
+        <div class="segmented" id="timeframeTabs"></div>
+        <div class="segmented compact" id="chartModeTabs"></div>
+      </div>
+      <div class="command-meta">
+        <div class="meta-chip"><span>Window</span><strong id="selectedWindow">Week desk</strong></div>
+        <div class="meta-chip"><span>Leader</span><strong id="leaderChip">repo-pilot</strong></div>
+        <div class="meta-chip"><span>Updated</span><strong id="updatedChip">Generated</strong></div>
+      </div>
+    </header>
 
-    <section class="control-row">
-      <div class="segmented" id="timeframeTabs"></div>
-      <div class="segmented" id="sectionTabs"></div>
-    </section>
-
-    <section class="core-board">
-      <section class="panel">
-        <div class="panel-head">
-          <div class="panel-title">Core Pulse</div>
-          <div class="panel-value" id="chartMeta">Window: Week</div>
-        </div>
-        <div class="panel-body chart-shell">
-          <div class="chart-summary" id="chartSummary"></div>
-          <svg class="hero-chart" id="heroChart" viewBox="0 0 960 320" preserveAspectRatio="none"></svg>
-          <div class="legend" id="legend"></div>
-        </div>
-      </section>
-
-      <aside class="panel">
-        <div class="ticker-block">
-          <div class="ticker-head"><span>Top Risers</span><span id="moverLabel">week flow</span></div>
-          <div class="ticker-list" id="moversUp"></div>
-        </div>
-        <div class="ticker-block">
-          <div class="ticker-head"><span>Cooling</span><span>watch</span></div>
-          <div class="ticker-list" id="moversDown"></div>
-        </div>
-        <div class="ticker-block">
-          <div class="ticker-head"><span>Pressure Queue</span><span>risk</span></div>
-          <div class="ticker-list" id="watchlist"></div>
+    <div class="workspace">
+      <aside class="left-rail panel">
+        <div class="rail-label">Panels</div>
+        <div class="nav-stack" id="navRail"></div>
+        <div class="rail-footer">
+          total tokens
+          <strong id="railTokenTotal">0</strong>
         </div>
       </aside>
-    </section>
 
-    <section class="tab-stage">
-      <section class="tab-panel is-active" data-tab="overview">
-        <div class="overview-grid">
-          <section class="panel">
-            <div class="panel-head">
-              <div class="panel-title">Top Board</div>
-              <div class="panel-value">usage + delivery + momentum</div>
-            </div>
-            <div style="overflow:auto;">
-              <table>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Skill</th>
-                    <th>Runs</th>
-                    <th>Tokens</th>
-                    <th>Chg</th>
-                    <th>Eff</th>
-                    <th>Delivery</th>
-                    <th>Momentum</th>
-                    <th>Trend</th>
-                  </tr>
-                </thead>
-                <tbody id="overviewTable"></tbody>
-              </table>
-            </div>
-          </section>
-          <section class="panel">
-            <div class="panel-head">
-              <div class="panel-title">Window Snapshot</div>
-              <div class="panel-value">day / week / month</div>
-            </div>
-            <div class="panel-body" id="windowSnapshot"></div>
-          </section>
-        </div>
-      </section>
+      <main class="desk">
+        <section class="summary-strip" id="statusGrid"></section>
 
-      <section class="tab-panel" data-tab="rankings">
-        <section class="panel">
-          <div class="panel-head">
-            <div class="panel-title">Full Rankings</div>
-            <div class="panel-value" id="rankingsMeta">sorted for week</div>
-          </div>
-          <div style="overflow:auto;">
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Skill</th>
-                  <th>Runs</th>
-                  <th>Tokens</th>
-                  <th>Input</th>
-                  <th>Output</th>
-                  <th>Chg</th>
-                  <th>Eff</th>
-                  <th>Delivery</th>
-                  <th>Friction</th>
-                  <th>Score</th>
-                </tr>
-              </thead>
-              <tbody id="rankingsTable"></tbody>
-            </table>
-          </div>
-        </section>
-      </section>
-
-      <section class="tab-panel" data-tab="calendar">
-        <div class="calendar-grid">
-          <section class="panel">
+        <section class="main-grid">
+          <section class="panel chart-panel">
             <div class="panel-head">
-              <div class="panel-title">Activity Calendar</div>
-              <div class="panel-value">last 42 days</div>
-            </div>
-            <div class="panel-body">
-              <div class="calendar-strip" id="calendarStats"></div>
-              <div class="calendar-heatmap" id="calendarHeatmap"></div>
-            </div>
-          </section>
-          <section class="panel">
-            <div class="panel-head">
-              <div class="panel-title">Calendar Legend</div>
-              <div class="panel-value">daily runs + tokens</div>
-            </div>
-            <div class="panel-body" id="calendarLegend"></div>
-          </section>
-        </div>
-      </section>
-
-      <section class="tab-panel" data-tab="tokens">
-        <div class="token-grid">
-          <section class="panel">
-            <div class="panel-head">
-              <div class="panel-title">Token Leaders</div>
-              <div class="panel-value" id="tokenMeta">window token spend</div>
-            </div>
-            <div style="overflow:auto;">
-              <table>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Skill</th>
-                    <th>Total</th>
-                    <th>Input</th>
-                    <th>Cached</th>
-                    <th>Output</th>
-                    <th>Reasoning</th>
-                    <th>Runs</th>
-                  </tr>
-                </thead>
-                <tbody id="tokenTable"></tbody>
-              </table>
-            </div>
-          </section>
-          <section class="token-stack">
-            <section class="panel">
-              <div class="panel-head">
-                <div class="panel-title">Token Mix</div>
-                <div class="panel-value" id="tokenMixMeta">selected window</div>
+              <div class="panel-head-copy">
+                <div class="panel-title">Composite Tape</div>
+                <div class="panel-subtitle" id="chartSubtitle">Daily desk flow, leader movement, and token pressure in one chart surface.</div>
               </div>
-              <div class="panel-body">
-                <div class="token-breakdown" id="tokenBreakdown"></div>
+              <div class="panel-value" id="chartMeta">Window: Week</div>
+            </div>
+            <div class="chart-shell">
+              <div class="chart-summary" id="chartSummary"></div>
+              <div class="chart-frame">
+                <div class="chart-overlay"></div>
+                <svg class="hero-chart" id="heroChart" viewBox="0 0 1120 430" preserveAspectRatio="none"></svg>
+              </div>
+              <div class="legend" id="legend"></div>
+            </div>
+          </section>
+
+          <aside class="panel side-panel">
+            <section class="side-section">
+              <div class="ticker-head"><span>Watchlist</span><span id="watchlistMeta">top board</span></div>
+              <div class="watch-rows" id="leadersWatch"></div>
+            </section>
+            <section class="side-section">
+              <div class="ticker-head"><span>Top Risers</span><span id="moverLabel">week flow</span></div>
+              <div class="ticker-list" id="moversUp"></div>
+            </section>
+            <section class="side-section">
+              <div class="ticker-head"><span>Cooling</span><span>cool-off</span></div>
+              <div class="ticker-list" id="moversDown"></div>
+            </section>
+            <section class="side-section">
+              <div class="ticker-head"><span>Pressure Queue</span><span>risk</span></div>
+              <div class="ticker-list" id="watchlist"></div>
+            </section>
+          </aside>
+        </section>
+
+        <section class="panel dock">
+          <div class="dock-head">
+            <div>
+              <div class="panel-title" id="dockTitle">Overview Dock</div>
+              <div class="panel-subtitle">Keep the chart workspace calm, then move into detailed panels only when you need them.</div>
+            </div>
+            <div class="segmented compact" id="sectionTabs"></div>
+          </div>
+          <div class="tab-stage">
+            <section class="tab-panel is-active" data-tab="overview">
+              <div class="overview-grid">
+                <section class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title">Top Board</div>
+                    <div class="panel-value">usage + delivery + momentum</div>
+                  </div>
+                  <div style="overflow:auto;">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Skill</th>
+                          <th>Runs</th>
+                          <th>Tokens</th>
+                          <th>Chg</th>
+                          <th>Eff</th>
+                          <th>Delivery</th>
+                          <th>Momentum</th>
+                          <th>Trend</th>
+                        </tr>
+                      </thead>
+                      <tbody id="overviewTable"></tbody>
+                    </table>
+                  </div>
+                </section>
+                <section class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title">Window Snapshot</div>
+                    <div class="panel-value">day / week / month</div>
+                  </div>
+                  <div class="panel-body" id="windowSnapshot"></div>
+                </section>
               </div>
             </section>
-            <section class="panel">
-              <div class="panel-head">
-                <div class="panel-title">Token Snapshot</div>
-                <div class="panel-value">aggregate usage</div>
-              </div>
-              <div class="panel-body" id="tokenSnapshot"></div>
+
+            <section class="tab-panel" data-tab="rankings">
+              <section class="panel">
+                <div class="panel-head">
+                  <div class="panel-title">Full Rankings</div>
+                  <div class="panel-value" id="rankingsMeta">sorted for week</div>
+                </div>
+                <div style="overflow:auto;">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Skill</th>
+                        <th>Runs</th>
+                        <th>Tokens</th>
+                        <th>Input</th>
+                        <th>Output</th>
+                        <th>Chg</th>
+                        <th>Eff</th>
+                        <th>Delivery</th>
+                        <th>Friction</th>
+                        <th>Score</th>
+                      </tr>
+                    </thead>
+                    <tbody id="rankingsTable"></tbody>
+                  </table>
+                </div>
+              </section>
             </section>
-          </section>
-        </div>
-      </section>
 
-      <section class="tab-panel" data-tab="pressure">
-        <div class="overview-grid">
-          <section class="panel">
-            <div class="panel-head">
-              <div class="panel-title">Challenge Pressure</div>
-              <div class="panel-value">repeated friction by skill usage</div>
-            </div>
-            <div style="overflow:auto;">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Challenge</th>
-                    <th>Hits</th>
-                    <th>Skills</th>
-                  </tr>
-                </thead>
-                <tbody id="challengeTable"></tbody>
-              </table>
-            </div>
-          </section>
-          <section class="panel">
-            <div class="panel-head">
-              <div class="panel-title">Watchlist</div>
-              <div class="panel-value">where to upgrade next</div>
-            </div>
-            <div class="panel-body">
-              <div class="ticker-list" id="watchlistDeep"></div>
-            </div>
-          </section>
-        </div>
-      </section>
+            <section class="tab-panel" data-tab="calendar">
+              <div class="calendar-grid">
+                <section class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title">Activity Calendar</div>
+                    <div class="panel-value">last 42 days</div>
+                  </div>
+                  <div class="panel-body">
+                    <div class="calendar-strip" id="calendarStats"></div>
+                    <div class="calendar-heatmap" id="calendarHeatmap"></div>
+                  </div>
+                </section>
+                <section class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title">Calendar Legend</div>
+                    <div class="panel-value">daily runs + tokens</div>
+                  </div>
+                  <div class="panel-body" id="calendarLegend"></div>
+                </section>
+              </div>
+            </section>
 
-      <section class="tab-panel" data-tab="tape">
-        <section class="panel">
-          <div class="panel-head">
-            <div class="panel-title">Recent Tape</div>
-            <div class="panel-value">latest tracked turns</div>
+            <section class="tab-panel" data-tab="tokens">
+              <div class="token-grid">
+                <section class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title">Token Leaders</div>
+                    <div class="panel-value" id="tokenMeta">window token spend</div>
+                  </div>
+                  <div style="overflow:auto;">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Skill</th>
+                          <th>Total</th>
+                          <th>Input</th>
+                          <th>Cached</th>
+                          <th>Output</th>
+                          <th>Reasoning</th>
+                          <th>Runs</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tokenTable"></tbody>
+                    </table>
+                  </div>
+                </section>
+                <section class="token-stack">
+                  <section class="panel">
+                    <div class="panel-head">
+                      <div class="panel-title">Token Mix</div>
+                      <div class="panel-value" id="tokenMixMeta">selected window</div>
+                    </div>
+                    <div class="panel-body">
+                      <div class="token-breakdown" id="tokenBreakdown"></div>
+                    </div>
+                  </section>
+                  <section class="panel">
+                    <div class="panel-head">
+                      <div class="panel-title">Token Snapshot</div>
+                      <div class="panel-value">aggregate usage</div>
+                    </div>
+                    <div class="panel-body" id="tokenSnapshot"></div>
+                  </section>
+                </section>
+              </div>
+            </section>
+
+            <section class="tab-panel" data-tab="pressure">
+              <div class="overview-grid">
+                <section class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title">Challenge Pressure</div>
+                    <div class="panel-value">repeated friction by skill usage</div>
+                  </div>
+                  <div style="overflow:auto;">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Challenge</th>
+                          <th>Hits</th>
+                          <th>Skills</th>
+                        </tr>
+                      </thead>
+                      <tbody id="challengeTable"></tbody>
+                    </table>
+                  </div>
+                </section>
+                <section class="panel">
+                  <div class="panel-head">
+                    <div class="panel-title">Watchlist</div>
+                    <div class="panel-value">where to upgrade next</div>
+                  </div>
+                  <div class="panel-body">
+                    <div class="ticker-list" id="watchlistDeep"></div>
+                  </div>
+                </section>
+              </div>
+            </section>
+
+            <section class="tab-panel" data-tab="tape">
+              <section class="panel">
+                <div class="panel-head">
+                  <div class="panel-title">Recent Tape</div>
+                  <div class="panel-value">latest tracked turns</div>
+                </div>
+                <div class="panel-body">
+                  <div class="tape" id="recentTape"></div>
+                </div>
+              </section>
+            </section>
           </div>
-          <div class="tape" id="recentTape"></div>
         </section>
-      </section>
-    </section>
+      </main>
+    </div>
 
     <footer class="footer">
       <div id="lastUpdated">Generated…</div>
@@ -1244,7 +1538,7 @@ def render_html(payload: dict) -> str:
   <script>
     const BOOTSTRAP_DATA = __BOOTSTRAP_DATA__;
     const DASHBOARD_JSON_URL = "./skill-dashboard.json";
-    const PALETTE = ["#5fe2ff", "#41f0a4", "#ffc76a", "#7d8bff", "#d06cff", "#ff627f"];
+    const PALETTE = ["#57d8ff", "#30d48a", "#ffbd63", "#8193ff", "#d06cff", "#ff5c7c"];
     const TIMEFRAME_LABELS = { day: "Day", week: "Week", month: "Month" };
     const TAB_LABELS = {
       overview: "Overview",
@@ -1254,9 +1548,23 @@ def render_html(payload: dict) -> str:
       pressure: "Pressure",
       tape: "Tape"
     };
+    const NAV_SHORT = {
+      overview: "OV",
+      rankings: "RK",
+      calendar: "CL",
+      tokens: "TK",
+      pressure: "PR",
+      tape: "TP"
+    };
+    const CHART_MODE_LABELS = {
+      market: "Market",
+      tokens: "Tokens",
+      efficiency: "Efficiency"
+    };
     let state = {
       timeframe: "week",
       tab: "overview",
+      chartMode: "market",
       data: BOOTSTRAP_DATA
     };
 
@@ -1326,10 +1634,6 @@ def render_html(payload: dict) -> str:
       };
     }
 
-    function chartSeriesTop(limit = 4) {
-      return currentLeaders().slice(0, limit);
-    }
-
     function sparklineSvg(points, color) {
       const width = 130;
       const height = 34;
@@ -1344,61 +1648,131 @@ def render_html(payload: dict) -> str:
       const line = coords.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
       return `
         <svg class="spark" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
-          <polyline fill="none" stroke="rgba(120,180,255,0.10)" stroke-width="1" points="0,${height-1} ${width},${height-1}"></polyline>
+          <polyline fill="none" stroke="rgba(124,155,196,0.10)" stroke-width="1" points="0,${height-1} ${width},${height-1}"></polyline>
           <polyline fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="${line}"></polyline>
         </svg>
       `;
     }
 
-    function buildHeroChart() {
-      const svg = document.getElementById("heroChart");
-      const series = chartSeriesTop();
-      const width = 960;
-      const height = 320;
-      const pad = { top: 24, right: 24, bottom: 30, left: 42 };
-      const labels = series[0]?.series_30d?.dates || [];
-      const metricKey = "runs";
-      const maxValue = Math.max(1, ...series.flatMap(item => item.series_30d[metricKey]));
+    function lastNDays(days = 30) {
+      return (state.data.calendar || []).slice(-days);
+    }
 
-      const toX = (index) => pad.left + (index / Math.max(labels.length - 1, 1)) * (width - pad.left - pad.right);
-      const toY = (value) => height - pad.bottom - (value / maxValue) * (height - pad.top - pad.bottom);
-
-      const gridLines = [0, 0.25, 0.5, 0.75, 1].map(step => {
-        const y = pad.top + (1 - step) * (height - pad.top - pad.bottom);
-        return `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="rgba(120,180,255,0.08)" stroke-width="1" />`;
+    function drawGrid(width, height, pad, steps = 5) {
+      return Array.from({ length: steps }, (_, index) => {
+        const y = pad.top + (index / (steps - 1)) * (height - pad.top - pad.bottom);
+        return `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="rgba(124,155,196,0.08)" stroke-width="1" />`;
       }).join("");
+    }
 
-      const paths = series.map((item, index) => {
+    function pathFromSeries(values, width, height, pad, maxValue, minValue = 0) {
+      const span = Math.max(maxValue - minValue, 1);
+      const toX = (index) => pad.left + (index / Math.max(values.length - 1, 1)) * (width - pad.left - pad.right);
+      const toY = (value) => height - pad.bottom - (((value - minValue) / span) * (height - pad.top - pad.bottom));
+      return values.map((value, index) => `${index === 0 ? "M" : "L"}${toX(index).toFixed(1)},${toY(value).toFixed(1)}`).join(" ");
+    }
+
+    function renderMarketChart(svg) {
+      const width = 1120;
+      const height = 430;
+      const pad = { top: 26, right: 28, bottom: 34, left: 44 };
+      const days = lastNDays(30);
+      const dates = days.map(item => item.date.slice(5));
+      const tokenValues = days.map(item => item.tokens);
+      const runValues = days.map(item => item.runs);
+      const leader = currentLeaders()[0];
+      const leaderValues = (leader?.series_30d?.runs || []).slice(-days.length);
+      const barMax = Math.max(...tokenValues, 1);
+      const lineMax = Math.max(...runValues, ...leaderValues, 1);
+      const usableWidth = width - pad.left - pad.right;
+      const chartHeight = height - pad.top - pad.bottom;
+      const barWidth = usableWidth / Math.max(days.length, 1) * 0.58;
+      const toX = (index) => pad.left + (index / Math.max(days.length - 1, 1)) * usableWidth;
+      const toBarY = (value) => height - pad.bottom - (value / barMax) * chartHeight;
+      const toLineY = (value) => height - pad.bottom - (value / lineMax) * chartHeight;
+      const runPath = pathFromSeries(runValues, width, height, pad, lineMax);
+      const leaderPath = leaderValues.length
+        ? pathFromSeries(leaderValues, width, height, pad, lineMax)
+        : "";
+      const bars = tokenValues.map((value, index) => {
+        const x = toX(index) - barWidth / 2;
+        const y = toBarY(value);
+        const h = Math.max(3, height - pad.bottom - y);
+        return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${h.toFixed(1)}" rx="4" fill="rgba(87,216,255,0.18)" stroke="rgba(87,216,255,0.18)" />`;
+      }).join("");
+      const ticks = dates.filter((_, index) => index % 5 === 0 || index === dates.length - 1).map(label => {
+        const idx = dates.indexOf(label);
+        return `<text x="${toX(idx)}" y="${height - 9}" fill="rgba(198,219,255,0.42)" font-size="11" text-anchor="middle">${label}</text>`;
+      }).join("");
+      const lastIndex = runValues.length - 1;
+      const runLastX = toX(lastIndex);
+      const runLastY = toLineY(runValues[lastIndex] || 0);
+      const leaderLastY = leaderValues.length ? toLineY(leaderValues[leaderValues.length - 1] || 0) : runLastY;
+      svg.innerHTML = `
+        ${drawGrid(width, height, pad)}
+        ${bars}
+        <path d="${runPath}" fill="none" stroke="${PALETTE[1]}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        <circle cx="${runLastX}" cy="${runLastY}" r="5" fill="${PALETTE[1]}"></circle>
+        ${leaderPath ? `<path d="${leaderPath}" fill="none" stroke="${PALETTE[0]}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>` : ""}
+        ${leaderPath ? `<circle cx="${runLastX}" cy="${leaderLastY}" r="5" fill="${PALETTE[0]}"></circle>` : ""}
+        ${ticks}
+      `;
+      const leaderName = leader ? escapeHtml(leader.skill) : "leader skill";
+      document.getElementById("legend").innerHTML = `
+        <span class="legend-item"><span class="legend-dot" style="background:${PALETTE[0]}; color:${PALETTE[0]};"></span><span>${leaderName} run line</span></span>
+        <span class="legend-item"><span class="legend-dot" style="background:${PALETTE[1]}; color:${PALETTE[1]};"></span><span>desk run line</span></span>
+        <span class="legend-item"><span class="legend-dot" style="background:rgba(87,216,255,0.7); color:rgba(87,216,255,0.7);"></span><span>daily token bars</span></span>
+      `;
+      document.getElementById("chartSubtitle").textContent = `${TIMEFRAME_LABELS[state.timeframe]} market view with total runs, leader runs, and token pressure bars.`;
+    }
+
+    function renderLineModeChart(svg, metricKey, label) {
+      const width = 1120;
+      const height = 430;
+      const pad = { top: 26, right: 28, bottom: 34, left: 44 };
+      const series = currentLeaders().slice(0, 4);
+      const dates = series[0]?.series_30d?.dates || lastNDays(30).map(item => item.date);
+      const valuesBySkill = series.map(item => ({
+        skill: item.skill,
+        values: item.series_30d[metricKey] || [],
+        score: item.windows[state.timeframe].rank_score
+      }));
+      const maxValue = Math.max(1, ...valuesBySkill.flatMap(item => item.values));
+      const grid = drawGrid(width, height, pad);
+      const lines = valuesBySkill.map((item, index) => {
         const color = PALETTE[index % PALETTE.length];
-        const values = item.series_30d[metricKey];
-        const d = values.map((value, pointIndex) => `${pointIndex === 0 ? "M" : "L"}${toX(pointIndex).toFixed(1)},${toY(value).toFixed(1)}`).join(" ");
-        const finalX = toX(values.length - 1);
-        const finalY = toY(values[values.length - 1] || 0);
+        const d = pathFromSeries(item.values, width, height, pad, maxValue);
+        const endX = pad.left + (Math.max(item.values.length - 1, 0) / Math.max(item.values.length - 1, 1)) * (width - pad.left - pad.right);
+        const endY = height - pad.bottom - (((item.values[item.values.length - 1] || 0) / maxValue) * (height - pad.top - pad.bottom));
         return `
-          <path d="${d}" fill="none" stroke="${color}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          <circle cx="${finalX}" cy="${finalY}" r="5.5" fill="${color}" />
-          <circle cx="${finalX}" cy="${finalY}" r="13" fill="${color}" opacity="0.13" />
+          <path d="${d}" fill="none" stroke="${color}" stroke-width="${index === 0 ? 3.4 : 2.6}" stroke-linecap="round" stroke-linejoin="round"></path>
+          <circle cx="${endX}" cy="${endY}" r="${index === 0 ? 5 : 4}" fill="${color}"></circle>
         `;
       }).join("");
-
-      const xTicks = labels.filter((_, index) => index % 5 === 0 || index === labels.length - 1).map((label) => {
-        const absoluteIndex = labels.indexOf(label);
-        return `<text x="${toX(absoluteIndex)}" y="${height - 8}" fill="rgba(198,219,255,0.45)" font-size="11" text-anchor="middle">${label.slice(5)}</text>`;
+      const ticks = dates.filter((_, index) => index % 5 === 0 || index === dates.length - 1).map(labelText => {
+        const idx = dates.indexOf(labelText);
+        const x = pad.left + (idx / Math.max(dates.length - 1, 1)) * (width - pad.left - pad.right);
+        return `<text x="${x}" y="${height - 9}" fill="rgba(198,219,255,0.42)" font-size="11" text-anchor="middle">${labelText.slice(5)}</text>`;
       }).join("");
-
-      svg.innerHTML = `
-        <rect x="0" y="0" width="${width}" height="${height}" fill="transparent"></rect>
-        ${gridLines}
-        ${paths}
-        ${xTicks}
-      `;
-
-      document.getElementById("legend").innerHTML = series.map((item, index) => `
+      svg.innerHTML = `${grid}${lines}${ticks}`;
+      document.getElementById("legend").innerHTML = valuesBySkill.map((item, index) => `
         <span class="legend-item">
           <span class="legend-dot" style="background:${PALETTE[index % PALETTE.length]}; color:${PALETTE[index % PALETTE.length]};"></span>
-          <span>${escapeHtml(item.skill)} <span style="color:var(--muted)">· ${TIMEFRAME_LABELS[state.timeframe]} score ${fmt(item.windows[state.timeframe].rank_score, 1)}</span></span>
+          <span>${escapeHtml(item.skill)} <span style="color:var(--muted)">· ${label}</span></span>
         </span>
       `).join("");
+      document.getElementById("chartSubtitle").textContent = `${TIMEFRAME_LABELS[state.timeframe]} ${label.toLowerCase()} view across the current top four skills.`;
+    }
+
+    function buildHeroChart() {
+      const svg = document.getElementById("heroChart");
+      if (state.chartMode === "market") {
+        renderMarketChart(svg);
+      } else if (state.chartMode === "tokens") {
+        renderLineModeChart(svg, "tokens", "token flow");
+      } else {
+        renderLineModeChart(svg, "efficiency", "efficiency");
+      }
     }
 
     function renderTimeframeTabs() {
@@ -1413,9 +1787,27 @@ def render_html(payload: dict) -> str:
       });
     }
 
+    function renderChartModeTabs() {
+      document.getElementById("chartModeTabs").innerHTML = Object.entries(CHART_MODE_LABELS).map(([key, label]) => `
+        <button class="${state.chartMode === key ? "is-active" : ""}" data-chart-mode="${key}">${label}</button>
+      `).join("");
+      document.querySelectorAll("[data-chart-mode]").forEach(button => {
+        button.onclick = () => {
+          state.chartMode = button.dataset.chartMode;
+          renderAll();
+        };
+      });
+    }
+
     function renderSectionTabs() {
       document.getElementById("sectionTabs").innerHTML = Object.entries(TAB_LABELS).map(([key, label]) => `
         <button class="${state.tab === key ? "is-active" : ""}" data-tab-button="${key}" aria-selected="${state.tab === key ? "true" : "false"}">${label}</button>
+      `).join("");
+      document.getElementById("navRail").innerHTML = Object.entries(TAB_LABELS).map(([key, label]) => `
+        <button class="nav-button ${state.tab === key ? "is-active" : ""}" data-tab-button="${key}" aria-selected="${state.tab === key ? "true" : "false"}">
+          <span class="nav-icon">${NAV_SHORT[key]}</span>
+          <span class="nav-text">${label}</span>
+        </button>
       `).join("");
       document.querySelectorAll("[data-tab-button]").forEach(button => {
         button.onclick = () => {
@@ -1432,32 +1824,54 @@ def render_html(payload: dict) -> str:
       document.querySelectorAll(".tab-panel").forEach(panel => {
         panel.classList.toggle("is-active", panel.dataset.tab === state.tab);
       });
+      document.getElementById("dockTitle").textContent = `${TAB_LABELS[state.tab]} Dock`;
+    }
+
+    function renderHeaderMeta() {
+      const frame = currentFrame();
+      const leaders = currentLeaders();
+      document.getElementById("selectedWindow").textContent = `${TIMEFRAME_LABELS[state.timeframe]} desk`;
+      document.getElementById("leaderChip").textContent = leaders[0] ? leaders[0].skill : "n/a";
+      document.getElementById("updatedChip").textContent = monoDate(state.data.generated_at);
+      document.getElementById("railTokenTotal").textContent = shortTokens(state.data.overview.total_tokens);
+      document.getElementById("watchlistMeta").textContent = `${TIMEFRAME_LABELS[state.timeframe].toLowerCase()} board`;
+      document.getElementById("moverLabel").textContent = `${TIMEFRAME_LABELS[state.timeframe].toLowerCase()} flow`;
+      document.getElementById("chartMeta").textContent = `Window: ${TIMEFRAME_LABELS[state.timeframe]} · ${shortTokens(frame.tokens)} tokens`;
     }
 
     function renderStatusGrid() {
-      const frame = currentFrame();
-      const leaders = currentLeaders();
-      const top = leaders[0];
+      const frames = state.data.overview.frames;
+      const top = currentLeaders()[0];
       const cards = [
         {
-          label: `${TIMEFRAME_LABELS[state.timeframe]} runs`,
-          value: fmtInt(frame.runs),
-          note: `${fmtInt(frame.previous_runs)} previous ${state.timeframe}`
+          label: "Day",
+          value: fmtInt(frames.day.runs),
+          note: `${shortTokens(frames.day.tokens)} · eff ${fmt(frames.day.avg_efficiency, 1)}`
         },
         {
-          label: `${TIMEFRAME_LABELS[state.timeframe]} tokens`,
-          value: shortTokens(frame.tokens),
-          note: `${pct(frame.delta_tokens_pct)} vs previous window`
+          label: "Week",
+          value: fmtInt(frames.week.runs),
+          note: `${shortTokens(frames.week.tokens)} · eff ${fmt(frames.week.avg_efficiency, 1)}`
         },
         {
-          label: `avg efficiency`,
-          value: fmt(frame.avg_efficiency, 1),
-          note: `${fmt(frame.delivery, 1)}% delivery`
+          label: "Month",
+          value: fmtInt(frames.month.runs),
+          note: `${shortTokens(frames.month.tokens)} · eff ${fmt(frames.month.avg_efficiency, 1)}`
         },
         {
-          label: `leader`,
+          label: "Selected Tokens",
+          value: shortTokens(currentFrame().tokens),
+          note: `${pct(currentFrame().delta_tokens_pct)} vs previous window`
+        },
+        {
+          label: "Delivery",
+          value: `${fmt(currentFrame().delivery, 1)}%`,
+          note: `${fmt(currentFrame().avg_efficiency, 1)} efficiency`
+        },
+        {
+          label: "Leader",
           value: top ? escapeHtml(top.skill) : "n/a",
-          note: top ? `${fmt(top.windows[state.timeframe].rank_score, 1)} rank score` : "no data"
+          note: top ? `${fmt(top.windows[state.timeframe].rank_score, 1)} rank score` : "no current leader"
         }
       ];
       document.getElementById("statusGrid").innerHTML = cards.map(card => `
@@ -1475,9 +1889,9 @@ def render_html(payload: dict) -> str:
       const leaders = currentLeaders();
       const summary = [
         { label: "window", value: TIMEFRAME_LABELS[state.timeframe], note: `${fmtInt(frame.runs)} runs` },
-        { label: "tokens", value: shortTokens(tokens.total_tokens), note: `${pct(frame.delta_tokens_pct)} token flow` },
-        { label: "efficiency", value: fmt(frame.avg_efficiency, 1), note: `${fmt(frame.delivery, 1)}% delivery` },
+        { label: "token flow", value: shortTokens(tokens.total_tokens), note: `${pct(frame.delta_tokens_pct)} window move` },
         { label: "leader", value: leaders[0] ? escapeHtml(leaders[0].skill) : "n/a", note: leaders[0] ? `${fmt(leaders[0].windows[state.timeframe].rank_score, 1)} score` : "no data" },
+        { label: "delivery", value: `${fmt(frame.delivery, 1)}%`, note: `${fmt(frame.avg_efficiency, 1)} avg efficiency` },
         { label: "active", value: fmtInt(state.data.overview.active_skills), note: `${shortTokens(state.data.overview.total_tokens)} all-time tokens` }
       ];
       document.getElementById("chartSummary").innerHTML = summary.map(item => `
@@ -1487,8 +1901,6 @@ def render_html(payload: dict) -> str:
           <div class="status-note">${item.note}</div>
         </div>
       `).join("");
-      document.getElementById("chartMeta").textContent = `Window: ${TIMEFRAME_LABELS[state.timeframe]}`;
-      document.getElementById("moverLabel").textContent = `${TIMEFRAME_LABELS[state.timeframe].toLowerCase()} flow`;
     }
 
     function renderTicker(targetId, items, mode) {
@@ -1504,9 +1916,28 @@ def render_html(payload: dict) -> str:
           <div class="ticker-item">
             <div>
               <div class="ticker-main">${escapeHtml(item.skill)}</div>
-              <div class="ticker-sub">${TIMEFRAME_LABELS[state.timeframe]} runs: ${window.runs} · ${shortTokens(window.tokens)} tokens · ${window.state}</div>
+              <div class="ticker-sub">${TIMEFRAME_LABELS[state.timeframe]} runs: ${window.runs} · ${shortTokens(window.tokens)} · ${window.state}</div>
             </div>
             <div class="delta ${deltaClass(deltaNumeric)}">${escapeHtml(deltaValue)}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderWatchlist() {
+      const leaders = currentLeaders().slice(0, 8);
+      document.getElementById("leadersWatch").innerHTML = leaders.map((item, index) => {
+        const window = item.windows[state.timeframe];
+        return `
+          <div class="watch-row">
+            <div class="watch-left">
+              <div class="watch-rank">${index + 1}</div>
+              <div>
+                <div class="ticker-main">${escapeHtml(item.skill)}</div>
+                <div class="ticker-sub">${shortTokens(window.tokens)} · ${window.runs} runs · ${window.state}</div>
+              </div>
+            </div>
+            <div class="delta ${deltaClass(window.delta_runs_pct)}">${pct(window.delta_runs_pct)}</div>
           </div>
         `;
       }).join("");
@@ -1590,12 +2021,11 @@ def render_html(payload: dict) -> str:
       }).join("");
       document.getElementById("calendarStats").innerHTML = stats;
 
+      const maxRuns = Math.max(...state.data.calendar.map(item => item.runs), 1);
       const cells = state.data.calendar.map(cell => {
-        const maxRuns = Math.max(...state.data.calendar.map(item => item.runs), 1);
-        const intensity = cell.runs === 0 ? 0.08 : Math.min(0.85, 0.18 + (cell.runs / maxRuns) * 0.62);
-        const bg = `rgba(95, 226, 255, ${intensity})`;
+        const intensity = cell.runs === 0 ? 0.08 : Math.min(0.9, 0.16 + (cell.runs / maxRuns) * 0.7);
         return `
-          <div class="calendar-cell ${cell.runs === 0 ? "is-dim" : ""}" title="${cell.date} · ${cell.runs} runs · ${shortTokens(cell.tokens)} tokens · eff ${fmt(cell.avg_efficiency, 1)}">
+          <div class="calendar-cell ${cell.runs === 0 ? "is-dim" : ""}" style="box-shadow: inset 0 0 0 1px rgba(87,216,255,0.04); background: linear-gradient(180deg, rgba(9,16,26,0.94), rgba(9,16,26,0.98)), rgba(0,0,0,1); border-color: rgba(124,155,196,${Math.min(0.26, intensity * 0.22)}); box-shadow: 0 0 0 1px rgba(255,255,255,0.01), inset 0 -28px 40px rgba(87,216,255,${intensity * 0.16});" title="${cell.date} · ${cell.runs} runs · ${shortTokens(cell.tokens)} tokens · eff ${fmt(cell.avg_efficiency, 1)}">
             <div class="day">${cell.day}</div>
             <div class="figure">${fmtInt(cell.runs)}</div>
             <div class="sub">${shortTokens(cell.tokens)}</div>
@@ -1612,7 +2042,7 @@ def render_html(payload: dict) -> str:
           <div class="status-note">${fmtInt(frame.runs)} runs · ${shortTokens(frame.tokens)} tokens · ${fmt(frame.delivery, 1)}% delivery</div>
         </div>
         <div class="status-note" style="line-height:1.7;">
-          Each square is one day. Brighter squares mean more tracked skill activity. The sub-label shows token volume for that day, so you can see both execution frequency and cost density in one place.
+          Each square is one day of tracked skill usage. The glow intensity follows activity density, while the sub-label keeps token pressure visible so you can read both throughput and cost at the same time.
         </div>
       `;
     }
@@ -1673,16 +2103,12 @@ def render_html(payload: dict) -> str:
     function renderPressure() {
       document.getElementById("challengeTable").innerHTML = state.data.challenges.map(item => `
         <tr>
-          <td>
-            <div class="skill-name">${escapeHtml(item.challenge)}</div>
-          </td>
+          <td><div class="skill-name">${escapeHtml(item.challenge)}</div></td>
           <td class="mono">${fmtInt(item.hits)}</td>
           <td style="color:var(--muted)">${escapeHtml(item.skills.slice(0, 4).join(", "))}${item.skills.length > 4 ? " +" + (item.skills.length - 4) : ""}</td>
         </tr>
       `).join("");
-
-      const watch = state.data.watchlist[state.timeframe] || [];
-      renderTicker("watchlistDeep", watch, "watch");
+      renderTicker("watchlistDeep", state.data.watchlist[state.timeframe] || [], "watch");
     }
 
     function renderTape() {
@@ -1705,11 +2131,14 @@ def render_html(payload: dict) -> str:
 
     function renderAll(mode = null) {
       renderTimeframeTabs();
+      renderChartModeTabs();
       renderSectionTabs();
       renderTabVisibility();
+      renderHeaderMeta();
       renderStatusGrid();
       renderChartSummary();
       buildHeroChart();
+      renderWatchlist();
       renderTicker("moversUp", state.data.movers[state.timeframe] || [], "up");
       renderTicker("moversDown", state.data.cooling[state.timeframe] || [], "down");
       renderTicker("watchlist", state.data.watchlist[state.timeframe] || [], "watch");

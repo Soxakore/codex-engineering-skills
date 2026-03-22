@@ -109,7 +109,7 @@ This repo also includes lightweight local telemetry for a continuous improvement
 - log meaningful skill runs to `telemetry/skill-runs.jsonl`
 - auto-sync explicit skill usage from local Codex session logs into `telemetry/skill-runs.auto.jsonl`
 - generate a report and Mermaid graph from that history
-- render a live tabbed dashboard with a calmer core view plus deeper rankings, calendar, pressure, tape, and token usage sections
+- render a live tabbed dashboard with a trading-desk style workspace, calmer core view, and deeper rankings, calendar, pressure, tape, and token usage sections
 - switch between day, week, and month windows without leaving the main board
 - track token volume from real Codex session logs, including input, cached input, output, and reasoning tokens
 - turn repeated challenge tags into concrete upgrade candidates
