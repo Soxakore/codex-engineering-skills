@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verified Operator"
+  short_description: "Operate live systems with proof and recovery"
+  default_prompt: "Use $verified-operator to execute this multi-system task, verify every action with receipts, and recover safely from drift."
