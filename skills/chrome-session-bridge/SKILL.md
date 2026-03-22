@@ -46,10 +46,16 @@ Prefer narrow, reversible actions.
 
 ## Primary Tool
 
-Use:
+After installing the skill into Codex, use:
 
 ```bash
-python3 /Users/ibe/Documents/NemoCodex/codex-engineering-skills/skills/chrome-session-bridge/scripts/chrome_bridge.py <command>
+python3 "${CODEX_HOME:-$HOME/.codex}/skills/chrome-session-bridge/scripts/chrome_bridge.py" <command>
+```
+
+If you are running directly from a repo checkout instead of an installed skill, use:
+
+```bash
+python3 ./skills/chrome-session-bridge/scripts/chrome_bridge.py <command>
 ```
 
 ## Core Workflow
