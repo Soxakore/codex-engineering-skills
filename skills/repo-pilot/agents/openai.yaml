@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repo Pilot"
+  short_description: "Map repos fast and land safe changes"
+  default_prompt: "Use $repo-pilot to understand this repo, choose the smallest safe change, and verify it with the cheapest useful proofs."

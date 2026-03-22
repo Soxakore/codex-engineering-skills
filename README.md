@@ -1,6 +1,6 @@
 # King of Codex Skills
 
-Battle-tested Codex skills for real work.
+Battle-tested Codex skills for real work in repos and live systems.
 
 This repository packages reusable Codex skills in a clean GitHub-friendly format so they can be:
 
@@ -9,7 +9,7 @@ This repository packages reusable Codex skills in a clean GitHub-friendly format
 - validated before release
 - expanded over time without turning into a messy one-off dump
 
-## Featured Skill
+## Featured Skills
 
 ### `verified-operator`
 
@@ -23,6 +23,19 @@ Best for tasks where Codex needs to do more than explain:
 - leave a trustworthy summary instead of a hand-wavy “should be fixed”
 
 Skill files live at [skills/verified-operator](/Users/ibe/Documents/NemoCodex/king-of-codex-skills/skills/verified-operator).
+
+### `repo-pilot`
+
+Map unfamiliar repositories quickly, choose the smallest safe implementation path, and land verified code changes with minimal diff.
+
+Best for tasks where Codex should understand the codebase before editing:
+
+- fix bugs in unfamiliar repos
+- add small or medium features without widening scope
+- trace behavior through an existing codebase
+- prefer minimal-diff, review-ready changes with the cheapest useful proofs
+
+Skill files live at [skills/repo-pilot](/Users/ibe/Documents/NemoCodex/king-of-codex-skills/skills/repo-pilot).
 
 ## Repo Layout
 
