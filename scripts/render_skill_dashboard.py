@@ -437,7 +437,7 @@ def render_html(payload: dict) -> str:
     .app-shell {
       max-width: 1680px;
       margin: 0 auto;
-      padding: 22px;
+      padding: 28px;
     }
 
     .panel {
@@ -455,10 +455,10 @@ def render_html(payload: dict) -> str:
       grid-template-areas:
         "brand controls"
         "meta meta";
-      gap: 18px 24px;
+      gap: 22px 28px;
       align-items: start;
-      padding: 22px 24px;
-      margin-bottom: 18px;
+      padding: 26px 28px;
+      margin-bottom: 24px;
     }
 
     .brand-cluster {
@@ -508,7 +508,7 @@ def render_html(payload: dict) -> str:
     .control-cluster {
       grid-area: controls;
       display: grid;
-      gap: 12px;
+      gap: 14px;
       justify-items: end;
       align-content: start;
     }
@@ -564,15 +564,21 @@ def render_html(payload: dict) -> str:
       grid-area: meta;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      gap: 14px;
       min-width: 0;
+      max-width: 980px;
+      justify-self: start;
     }
 
     .meta-chip {
-      padding: 12px 14px;
+      padding: 14px 16px;
       border-radius: var(--radius-sm);
       background: rgba(11, 17, 28, 0.92);
       border: 1px solid rgba(124, 155, 196, 0.11);
+      min-height: 74px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .meta-chip span {
@@ -595,17 +601,17 @@ def render_html(payload: dict) -> str:
 
     .workspace {
       display: grid;
-      grid-template-columns: 82px minmax(0, 1fr);
-      gap: 18px;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 22px;
       align-items: start;
     }
 
     .left-rail {
       position: sticky;
-      top: 18px;
-      padding: 18px 12px;
+      top: 22px;
+      padding: 20px 14px;
       display: grid;
-      gap: 18px;
+      gap: 20px;
     }
 
     .rail-label {
@@ -618,16 +624,16 @@ def render_html(payload: dict) -> str:
 
     .nav-stack {
       display: grid;
-      gap: 8px;
+      gap: 10px;
     }
 
     .nav-button {
-      border-radius: 16px;
-      padding: 11px 6px;
+      border-radius: 18px;
+      padding: 13px 8px;
       display: grid;
-      gap: 5px;
+      gap: 6px;
       justify-items: center;
-      min-height: 64px;
+      min-height: 72px;
     }
 
     .nav-icon {
@@ -639,7 +645,7 @@ def render_html(payload: dict) -> str:
     }
 
     .nav-text {
-      font-size: 0.58rem;
+      font-size: 0.6rem;
       text-transform: uppercase;
       letter-spacing: 0.16em;
     }
@@ -663,22 +669,25 @@ def render_html(payload: dict) -> str:
 
     .desk {
       display: grid;
-      gap: 18px;
+      gap: 22px;
     }
 
     .summary-strip {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
+      gap: 18px;
     }
 
     .status-card {
-      padding: 18px 18px 16px;
-      min-height: 118px;
+      padding: 20px 22px 18px;
+      min-height: 132px;
       border-radius: var(--radius);
       background: var(--panel-glow);
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .status-label,
@@ -698,16 +707,16 @@ def render_html(payload: dict) -> str:
     }
 
     .status-note {
-      margin-top: 8px;
+      margin-top: 14px;
       color: var(--muted);
       font-size: 0.8rem;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .main-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.7fr) 344px;
-      gap: 18px;
+      grid-template-columns: minmax(0, 1.75fr) 330px;
+      gap: 22px;
       align-items: start;
     }
 
@@ -722,7 +731,7 @@ def render_html(payload: dict) -> str:
       justify-content: space-between;
       align-items: flex-start;
       gap: 18px;
-      padding: 18px 22px;
+      padding: 20px 24px;
       border-bottom: 1px solid rgba(124, 155, 196, 0.09);
     }
 
@@ -745,26 +754,27 @@ def render_html(payload: dict) -> str:
     }
 
     .panel-body {
-      padding: 22px;
+      padding: 24px;
     }
 
     .chart-shell {
       display: grid;
-      gap: 18px;
-      padding: 22px;
+      gap: 20px;
+      padding: 24px;
     }
 
     .chart-summary {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
+      gap: 14px;
     }
 
     .mini-metric {
-      padding: 15px 16px;
+      padding: 16px 18px;
       border-radius: 14px;
       background: rgba(10, 17, 28, 0.92);
       border: 1px solid rgba(124, 155, 196, 0.09);
+      min-height: 96px;
     }
 
     .mini-metric .label {
@@ -783,7 +793,7 @@ def render_html(payload: dict) -> str:
 
     .chart-frame {
       position: relative;
-      padding: 18px 18px 14px;
+      padding: 22px 22px 18px;
       border-radius: 20px;
       background:
         linear-gradient(180deg, rgba(5, 10, 18, 0.9), rgba(6, 10, 16, 0.96)),
@@ -834,15 +844,15 @@ def render_html(payload: dict) -> str:
 
     .side-panel {
       display: grid;
-      gap: 12px;
-      padding: 12px;
+      gap: 16px;
+      padding: 16px;
       align-content: start;
     }
 
     .side-section {
-      padding: 18px 20px;
+      padding: 20px 22px;
       border: 1px solid rgba(124, 155, 196, 0.09);
-      border-radius: 16px;
+      border-radius: 18px;
       background: rgba(9, 15, 25, 0.84);
     }
 
@@ -854,7 +864,7 @@ def render_html(payload: dict) -> str:
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.14em;
@@ -864,7 +874,7 @@ def render_html(payload: dict) -> str:
     .ticker-list,
     .watch-rows {
       display: grid;
-      gap: 12px;
+      gap: 14px;
     }
 
     .ticker-item,
@@ -873,7 +883,7 @@ def render_html(payload: dict) -> str:
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 14px;
       align-items: center;
-      padding: 12px 0;
+      padding: 14px 0;
       border-bottom: 1px dashed rgba(124, 155, 196, 0.09);
     }
 
@@ -886,14 +896,14 @@ def render_html(payload: dict) -> str:
     .watch-left {
       display: grid;
       grid-template-columns: 30px minmax(0, 1fr);
-      gap: 12px;
+      gap: 14px;
       align-items: center;
     }
 
     .watch-rank {
-      width: 30px;
-      height: 30px;
-      border-radius: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
       display: grid;
       place-items: center;
       font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
@@ -932,13 +942,13 @@ def render_html(payload: dict) -> str:
       justify-content: space-between;
       align-items: center;
       gap: 14px;
-      padding: 18px 22px;
+      padding: 20px 24px;
       border-bottom: 1px solid rgba(124, 155, 196, 0.09);
     }
 
     .tab-stage {
       min-height: 500px;
-      padding: 22px;
+      padding: 24px;
     }
 
     .tab-panel {
@@ -1187,6 +1197,8 @@ def render_html(payload: dict) -> str:
 
       .command-meta {
         min-width: 0;
+        max-width: none;
+        justify-self: stretch;
       }
     }
 
@@ -1238,7 +1250,7 @@ def render_html(payload: dict) -> str:
 
     @media (max-width: 720px) {
       .app-shell {
-        padding: 14px;
+        padding: 16px;
       }
 
       .chart-summary,
