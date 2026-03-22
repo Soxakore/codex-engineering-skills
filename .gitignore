@@ -9,3 +9,5 @@ telemetry/skill-runs.auto.jsonl
 telemetry/auto-sync.log
 telemetry/launchd.stdout.log
 telemetry/launchd.stderr.log
+telemetry/skill-dashboard.html
+telemetry/skill-dashboard.json

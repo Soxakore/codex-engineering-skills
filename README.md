@@ -107,6 +107,7 @@ This repo also includes lightweight local telemetry for a continuous improvement
 - log meaningful skill runs to `telemetry/skill-runs.jsonl`
 - auto-sync explicit skill usage from local Codex session logs into `telemetry/skill-runs.auto.jsonl`
 - generate a report and Mermaid graph from that history
+- render a live ranked dashboard with trends, movers, and skill momentum
 - turn repeated challenge tags into concrete upgrade candidates
 
 Quick example:
@@ -127,6 +128,8 @@ python3 ./scripts/log_skill_run.py \
 python3 ./scripts/render_skill_report.py
 
 python3 ./scripts/sync_codex_skill_runs.py --render
+
+python3 ./scripts/serve_skill_dashboard.py
 ```
 
 See [docs/skill-tracking.md](./docs/skill-tracking.md) for the full workflow.

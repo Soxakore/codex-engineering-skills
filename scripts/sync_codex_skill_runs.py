@@ -18,6 +18,8 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CODEX_HOME = Path.home() / ".codex"
 DEFAULT_AUTO_LOG = REPO_ROOT / "telemetry" / "skill-runs.auto.jsonl"
 DEFAULT_REPORT = REPO_ROOT / "telemetry" / "skill-report.md"
+DEFAULT_DASHBOARD_HTML = REPO_ROOT / "telemetry" / "skill-dashboard.html"
+DEFAULT_DASHBOARD_JSON = REPO_ROOT / "telemetry" / "skill-dashboard.json"
 MANUAL_LOG = REPO_ROOT / "telemetry" / "skill-runs.jsonl"
 
 OUTCOME_SCORES = {
@@ -535,18 +537,33 @@ def write_jsonl(path: Path, records: Iterable[dict]) -> None:
 
 
 def run_render(output_path: Path, report_output: Path) -> None:
-    script = REPO_ROOT / "scripts" / "render_skill_report.py"
-    cmd = [
+    report_script = REPO_ROOT / "scripts" / "render_skill_report.py"
+    report_cmd = [
         "python3",
-        str(script),
+        str(report_script),
         "--input",
         str(output_path),
         "--output",
         str(report_output),
     ]
     if MANUAL_LOG.exists():
-        cmd.extend(["--input", str(MANUAL_LOG)])
-    subprocess.run(cmd, check=True)
+        report_cmd.extend(["--input", str(MANUAL_LOG)])
+    subprocess.run(report_cmd, check=True)
+
+    dashboard_script = REPO_ROOT / "scripts" / "render_skill_dashboard.py"
+    dashboard_cmd = [
+        "python3",
+        str(dashboard_script),
+        "--input",
+        str(output_path),
+        "--html-output",
+        str(DEFAULT_DASHBOARD_HTML),
+        "--json-output",
+        str(DEFAULT_DASHBOARD_JSON),
+    ]
+    if MANUAL_LOG.exists():
+        dashboard_cmd.extend(["--input", str(MANUAL_LOG)])
+    subprocess.run(dashboard_cmd, check=True)
 
 
 def main() -> int:

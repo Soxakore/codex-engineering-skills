@@ -18,8 +18,12 @@ The goal is simple:
   Auto-sync skill runs from real Codex desktop and CLI session logs under `~/.codex/sessions`.
 - `scripts/render_skill_report.py`
   Turn the log into a Markdown report with a Mermaid graph.
+- `scripts/render_skill_dashboard.py`
+  Build a live market-style HTML dashboard and JSON snapshot from the same telemetry.
 - `scripts/install_launch_agent.sh`
   Install a background macOS `launchd` job that refreshes the auto log and report every 30 minutes.
+- `scripts/serve_skill_dashboard.py`
+  Serve the live dashboard over local HTTP so the page can poll fresh JSON without full reloads.
 - `telemetry/skill-runs.sample.jsonl`
   Safe sample data you can copy from.
 - `telemetry/skill-report.sample.md`
@@ -30,6 +34,8 @@ Your live files should stay local:
 - `telemetry/skill-runs.jsonl`
 - `telemetry/skill-runs.auto.jsonl`
 - `telemetry/skill-report.md`
+- `telemetry/skill-dashboard.html`
+- `telemetry/skill-dashboard.json`
 
 Those live files are ignored by git on purpose so your public repo does not become a dump of private tasks.
 
@@ -71,6 +77,18 @@ Install the background refresh job on macOS:
 bash ./scripts/install_launch_agent.sh
 ```
 
+Serve the live dashboard locally:
+
+```bash
+python3 ./scripts/serve_skill_dashboard.py
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8765/skill-dashboard.html
+```
+
 ## Suggested Rating Guide
 
 - `outcome`
@@ -108,6 +126,27 @@ The generated Mermaid graph shows:
   what improvement should be built to reduce that friction next time
 
 That gives you a visible improvement loop instead of vague memory.
+
+## Live Dashboard
+
+The HTML dashboard is meant to feel more like a market board than a static report. It ranks skills using:
+
+- total usage
+- recent 7-day usage
+- efficiency
+- delivery index
+- momentum
+- friction and time cost
+
+It also shows:
+
+- top movers
+- cooling skills
+- pressure/watchlist lanes
+- a 21-day usage chart for the top-ranked skills
+- recent tracked runs
+
+If you open the dashboard directly from the filesystem, it falls back to the embedded snapshot and auto-reloads once a minute. If you serve it over HTTP with `serve_skill_dashboard.py`, it will poll `skill-dashboard.json` every 20 seconds for a smoother live view.
 
 ## Automatic Sync Heuristics
 
