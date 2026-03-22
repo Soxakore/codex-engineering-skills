@@ -1,4 +1,4 @@
-# King of Codex Skills
+# Codex Engineering Skills
 
 Battle-tested Codex skills for real work in repos and live systems.
 
@@ -40,7 +40,7 @@ Skill files live at [skills/repo-pilot](./skills/repo-pilot).
 ## Repo Layout
 
 ```text
-king-of-codex-skills/
+codex-engineering-skills/
 ├── skills/
 │   └── verified-operator/
 │       ├── SKILL.md
@@ -61,8 +61,8 @@ king-of-codex-skills/
 Install the packaged skills into your local Codex setup:
 
 ```bash
-git clone https://github.com/Soxakore/king-of-codex-skills.git
-cd king-of-codex-skills
+git clone https://github.com/Soxakore/codex-engineering-skills.git
+cd codex-engineering-skills
 bash ./scripts/install.sh
 ```
 
@@ -86,7 +86,7 @@ This uses Codex's local validator if it exists on the machine.
 
 This repo is already live on GitHub:
 
-[Soxakore/king-of-codex-skills](https://github.com/Soxakore/king-of-codex-skills)
+[Soxakore/codex-engineering-skills](https://github.com/Soxakore/codex-engineering-skills)
 
 ## Suggested GitHub Metadata
 

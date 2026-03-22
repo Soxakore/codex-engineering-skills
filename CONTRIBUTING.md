@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for contributing to King of Codex Skills.
+Thanks for contributing to Codex Engineering Skills.
 
 ## Goal
 
