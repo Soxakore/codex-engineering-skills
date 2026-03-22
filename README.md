@@ -43,6 +43,8 @@ Skill files live at [skills/repo-pilot](./skills/repo-pilot).
 codex-engineering-skills/
 ├── docs/
 │   └── skill-tracking.md
+├── automation/
+│   └── com.soxakore.codex-skill-telemetry.plist.sample
 ├── skills/
 │   ├── repo-pilot/
 │   │   ├── SKILL.md
@@ -56,8 +58,12 @@ codex-engineering-skills/
 │       └── examples/
 ├── scripts/
 │   ├── install.sh
+│   ├── install_launch_agent.sh
 │   ├── log_skill_run.py
+│   ├── run_auto_sync.sh
 │   ├── render_skill_report.py
+│   ├── sync_codex_skill_runs.py
+│   ├── uninstall_launch_agent.sh
 │   └── validate.sh
 ├── telemetry/
 │   ├── skill-report.sample.md
@@ -99,6 +105,7 @@ This uses Codex's local validator if it exists on the machine.
 This repo also includes lightweight local telemetry for a continuous improvement loop:
 
 - log meaningful skill runs to `telemetry/skill-runs.jsonl`
+- auto-sync explicit skill usage from local Codex session logs into `telemetry/skill-runs.auto.jsonl`
 - generate a report and Mermaid graph from that history
 - turn repeated challenge tags into concrete upgrade candidates
 
@@ -118,6 +125,8 @@ python3 ./scripts/log_skill_run.py \
   --upgrade "add README release checklist"
 
 python3 ./scripts/render_skill_report.py
+
+python3 ./scripts/sync_codex_skill_runs.py --render
 ```
 
 See [docs/skill-tracking.md](./docs/skill-tracking.md) for the full workflow.

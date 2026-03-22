@@ -13,7 +13,10 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_INPUT = REPO_ROOT / "telemetry" / "skill-runs.jsonl"
+DEFAULT_INPUTS = [
+    REPO_ROOT / "telemetry" / "skill-runs.jsonl",
+    REPO_ROOT / "telemetry" / "skill-runs.auto.jsonl",
+]
 DEFAULT_OUTPUT = REPO_ROOT / "telemetry" / "skill-report.md"
 OUTCOME_SCORES = {
     "success": 1.0,
@@ -26,7 +29,12 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Render a skill effectiveness report from a JSONL log."
     )
-    parser.add_argument("--input", default=str(DEFAULT_INPUT))
+    parser.add_argument(
+        "--input",
+        action="append",
+        default=[],
+        help="Repeatable input JSONL path. If omitted, uses any existing default local logs.",
+    )
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
     parser.add_argument(
         "--graph-limit",
@@ -37,9 +45,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def load_runs(path: Path) -> list[dict]:
-    if not path.exists():
-        raise SystemExit(f"Input log does not exist: {path}")
+def load_runs_from_path(path: Path) -> list[dict]:
     runs = []
     with path.open("r", encoding="utf-8") as handle:
         for line in handle:
@@ -47,8 +53,6 @@ def load_runs(path: Path) -> list[dict]:
             if not line:
                 continue
             runs.append(json.loads(line))
-    if not runs:
-        raise SystemExit(f"No runs found in: {path}")
     return runs
 
 
@@ -324,9 +328,21 @@ Tracked runs: **{len(runs)}**
 
 def main() -> int:
     args = parse_args()
-    input_path = Path(args.input).expanduser().resolve()
+    input_candidates = (
+        [Path(item).expanduser().resolve() for item in args.input]
+        if args.input
+        else [path.resolve() for path in DEFAULT_INPUTS if path.exists()]
+    )
     output_path = Path(args.output).expanduser().resolve()
-    runs = load_runs(input_path)
+    if not input_candidates:
+        raise SystemExit("No input logs found. Pass --input or create local telemetry logs first.")
+    runs = []
+    for input_path in input_candidates:
+        if not input_path.exists():
+            raise SystemExit(f"Input log does not exist: {input_path}")
+        runs.extend(load_runs_from_path(input_path))
+    if not runs:
+        raise SystemExit("No runs found in the provided input logs.")
     aggregates = aggregate_runs(runs)
     report = build_report(runs, aggregates, args.graph_limit)
     output_path.parent.mkdir(parents=True, exist_ok=True)

@@ -14,8 +14,12 @@ The goal is simple:
 
 - `scripts/log_skill_run.py`
   Append one structured run entry to a local JSONL log.
+- `scripts/sync_codex_skill_runs.py`
+  Auto-sync skill runs from real Codex desktop and CLI session logs under `~/.codex/sessions`.
 - `scripts/render_skill_report.py`
   Turn the log into a Markdown report with a Mermaid graph.
+- `scripts/install_launch_agent.sh`
+  Install a background macOS `launchd` job that refreshes the auto log and report every 30 minutes.
 - `telemetry/skill-runs.sample.jsonl`
   Safe sample data you can copy from.
 - `telemetry/skill-report.sample.md`
@@ -24,6 +28,7 @@ The goal is simple:
 Your live files should stay local:
 
 - `telemetry/skill-runs.jsonl`
+- `telemetry/skill-runs.auto.jsonl`
 - `telemetry/skill-report.md`
 
 Those live files are ignored by git on purpose so your public repo does not become a dump of private tasks.
@@ -52,6 +57,18 @@ Render the report and graph:
 
 ```bash
 python3 ./scripts/render_skill_report.py
+```
+
+Auto-sync from Codex session history and render the combined report:
+
+```bash
+python3 ./scripts/sync_codex_skill_runs.py --render
+```
+
+Install the background refresh job on macOS:
+
+```bash
+bash ./scripts/install_launch_agent.sh
 ```
 
 ## Suggested Rating Guide
@@ -91,6 +108,37 @@ The generated Mermaid graph shows:
   what improvement should be built to reduce that friction next time
 
 That gives you a visible improvement loop instead of vague memory.
+
+## Automatic Sync Heuristics
+
+The auto-sync script reads local Codex session logs and looks for turns where the assistant explicitly announced skill usage, for example:
+
+- `I'm using \`repo-pilot\` ...`
+- `Using \`verified-operator\` ...`
+
+For each detected turn it will:
+
+- capture the user task label from the turn prompt
+- estimate duration from the start of the turn to completion
+- infer friction from command failures and challenge language
+- infer challenge tags from repeated patterns like `timeout`, `race`, `permission`, or `path portability`
+- map those tags into upgrade candidates
+
+This keeps the auto log honest about one important limit: it only tracks turns where skill usage was made explicit in the transcript.
+
+## Fully Automatic Mode
+
+If you want this to stay current without thinking about it:
+
+1. install the launch agent with `bash ./scripts/install_launch_agent.sh`
+2. let it scan `~/.codex/sessions` every 30 minutes
+3. open `telemetry/skill-report.md` whenever you want the latest graph
+
+Remove it later with:
+
+```bash
+bash ./scripts/uninstall_launch_agent.sh
+```
 
 ## Recommended Workflow
 

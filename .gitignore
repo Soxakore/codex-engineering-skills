@@ -2,5 +2,10 @@
 *.log
 *.tmp
 Thumbs.db
+__pycache__/
 telemetry/skill-runs.jsonl
 telemetry/skill-report.md
+telemetry/skill-runs.auto.jsonl
+telemetry/auto-sync.log
+telemetry/launchd.stdout.log
+telemetry/launchd.stderr.log
