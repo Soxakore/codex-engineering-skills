@@ -1273,7 +1273,7 @@ def render_html(payload: dict) -> str:
         <div>
           <div class="eyebrow">live telemetry terminal</div>
           <div class="desk-title">Skill Exchange Desk</div>
-          <div class="desk-subtitle">TradingView-inspired telemetry layout with a chart-first workspace, command strip, and a dock for deep inspection.</div>
+          <div class="desk-subtitle">TradingView-inspired telemetry layout with a chart-first overview and separate workspaces for deeper analysis.</div>
         </div>
       </div>
       <div class="control-cluster">
@@ -1300,7 +1300,7 @@ def render_html(payload: dict) -> str:
       <main class="desk">
         <section class="summary-strip" id="statusGrid"></section>
 
-        <section class="main-grid">
+        <section class="main-grid" id="mainWorkspace">
           <section class="panel chart-panel">
             <div class="panel-head">
               <div class="panel-head-copy">
@@ -1339,13 +1339,12 @@ def render_html(payload: dict) -> str:
           </aside>
         </section>
 
-        <section class="panel dock">
+        <section class="panel dock" id="detailWorkspace" style="display:none;">
           <div class="dock-head">
             <div>
-              <div class="panel-title" id="dockTitle">Overview Dock</div>
-              <div class="panel-subtitle">Keep the chart workspace calm, then move into detailed panels only when you need them.</div>
+              <div class="panel-title" id="detailTitle">Detail Workspace</div>
+              <div class="panel-subtitle" id="detailSubtitle">Open a dedicated workspace when you want to go deeper without crowding the overview screen.</div>
             </div>
-            <div class="segmented compact" id="sectionTabs"></div>
           </div>
           <div class="tab-stage">
             <section class="tab-panel is-active" data-tab="overview">
@@ -1547,6 +1546,14 @@ def render_html(payload: dict) -> str:
       tokens: "Tokens",
       pressure: "Pressure",
       tape: "Tape"
+    };
+    const VIEW_SUBTITLES = {
+      overview: "Keep the chart workspace calm, then open a dedicated workspace only when you want more depth.",
+      rankings: "Full rankings take over the workspace here so you can compare skills without the chart and side panels competing for attention.",
+      calendar: "The calendar view gets the full canvas, making it easier to read patterns across days instead of squeezing it under the overview.",
+      tokens: "Token usage gets its own workspace so spend, mix, and per-skill leaders are easier to inspect without crowding the overview.",
+      pressure: "Repeated friction, challenge hotspots, and upgrade pressure live here as a dedicated risk workspace.",
+      tape: "Recent tracked runs get their own tape view so the event stream is readable like a terminal feed."
     };
     const NAV_SHORT = {
       overview: "OV",
@@ -1800,9 +1807,6 @@ def render_html(payload: dict) -> str:
     }
 
     function renderSectionTabs() {
-      document.getElementById("sectionTabs").innerHTML = Object.entries(TAB_LABELS).map(([key, label]) => `
-        <button class="${state.tab === key ? "is-active" : ""}" data-tab-button="${key}" aria-selected="${state.tab === key ? "true" : "false"}">${label}</button>
-      `).join("");
       document.getElementById("navRail").innerHTML = Object.entries(TAB_LABELS).map(([key, label]) => `
         <button class="nav-button ${state.tab === key ? "is-active" : ""}" data-tab-button="${key}" aria-selected="${state.tab === key ? "true" : "false"}">
           <span class="nav-icon">${NAV_SHORT[key]}</span>
@@ -1814,17 +1818,21 @@ def render_html(payload: dict) -> str:
           const target = button.dataset.tabButton;
           if (!target) return;
           state.tab = target;
-          renderTabVisibility();
-          renderSectionTabs();
+          renderAll();
         };
       });
     }
 
     function renderTabVisibility() {
+      const isOverview = state.tab === "overview";
+      document.getElementById("mainWorkspace").style.display = isOverview ? "" : "none";
+      document.getElementById("detailWorkspace").style.display = isOverview ? "none" : "";
+      document.getElementById("chartModeTabs").style.display = isOverview ? "" : "none";
       document.querySelectorAll(".tab-panel").forEach(panel => {
-        panel.classList.toggle("is-active", panel.dataset.tab === state.tab);
+        panel.classList.toggle("is-active", !isOverview && panel.dataset.tab === state.tab);
       });
-      document.getElementById("dockTitle").textContent = `${TAB_LABELS[state.tab]} Dock`;
+      document.getElementById("detailTitle").textContent = `${TAB_LABELS[state.tab]} Workspace`;
+      document.getElementById("detailSubtitle").textContent = VIEW_SUBTITLES[state.tab];
     }
 
     function renderHeaderMeta() {
